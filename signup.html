@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>RegistrationForm_v2 by Colorlib</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/auth/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="css/auth/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+
+</head>
+
+<body>
+
+    <div class="wrapper" style="background-image: url('img/bg-registration-form-2.jpg');">
+        <div class="inner">
+            <form id="registrationForm">
+                <h3>Registration Form</h3>
+                <div class="form-group">
+                    <div class="form-wrapper">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="form-control">
+                    </div>
+                    <div class="form-wrapper">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-control">
+                    </div>
+                </div>
+                <div class="form-wrapper">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" class="form-control">
+                </div>
+                <div class="form-wrapper">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control">
+                </div>
+                <div class="form-wrapper">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-control">
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="terms"> I accept the Terms of Use & Privacy Policy.
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <button type="button" onclick="submitFormSingUp()">Register Now</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Email Sent</h2>
+            <p>Your email has been successfully sent.</p>
+        </div>
+    </div>
+
+
+</body>
+<script src="auth.js"></script>
+</html>

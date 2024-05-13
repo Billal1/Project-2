@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
+    <title>CoolGadgets | Ecommerce Website</title>
+</head>
+
+<body>
+    <header class="bg-light">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="/">
+                    <img src="img/logo.png" alt="CoolGadgets Logo" width="120">
+                </a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="cart.html"><i class="fas fa-shopping-cart"></i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!--- Products Section -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Our Products</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+           
+           
+        </div>
+    </div>
+
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Email Sent</h2>
+            <p>Your email has been successfully sent.</p>
+        </div>
+    </div>
+
+   <!--- Footer -->
+   <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="img/logo.png" alt="CoolGadgets Logo" class="mb-2" width="100">
+                    <p>Discover the Future <br> With CoolGadgets!</p>
+                </div>
+                <div class="col-md-3">
+                    <h3>Navigation</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-decoration-none text-light">Home</a></li>
+                        <li><a href="products.html" class="text-decoration-none text-light">Products</a></li>
+                        <li><a href="#contact" class="text-decoration-none text-light">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h3>Useful Links</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-light">Coupons</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Blog Post</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Return Policy</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Join Affiliate</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h3>Follow Us</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-light">Facebook</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Twitter</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Instagram</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">&copy; Copyright 2023 - CoolGadgets Store</div>
+        </div>
+    </footer>
+</body>
+
+<script>
+    async function fetchProductData() {
+    try {
+        const response = await fetch('http://localhost:3000/api/products');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        const productsContainer = document.querySelector('.row.row-cols-1.row-cols-md-2.row-cols-lg-4.g-4');
+        data.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.classList.add('col');
+            productCard.innerHTML = `
+                <a href="#" class="product-link" data-product-id="${product._id}">
+                    <div class="card h-100">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">$${product.price.toFixed(2)}</p>
+                            </div>
+                            </a>
+                            <div>
+                            <button onclick=addToCartButton('${product._id}') class="btn btn-warning" value="">Add to Cart</button>
+                        </div>
+                    </div>
+            
+            `;
+            productsContainer.appendChild(productCard);
+        });
+
+        // Add event listener to dynamically created product links
+        document.querySelectorAll('.product-link').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                var productId = this.getAttribute('data-product-id');
+                var url = 'about-product.html?productId=' + productId;
+                window.location.href = url;
+            });
+        });
+
+        return data;
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+fetchProductData();
+function addToCartButton(id) {
+    const userData = JSON.parse(localStorage.getItem("user"))
+
+    if (!userData) {
+        
+            // Handle success response
+            var modal = document.getElementById("myModal");
+
+            modal.innerHTML = `
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Login</h2>
+                <p>You need to login first to add items to cart</p>
+            </div>`;
+            modal.style.display = "block";
+
+            var modal = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        return;
+    }
+
+    const userId = userData._id
+
+    // Prepare data to send
+    var data = {
+        userId: userId,
+        productId: id
+    };
+    // Send data to the API endpoint
+    fetch('http://localhost:3000/api/products/add-to-cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+
+
+            // Handle success response
+            var modal = document.getElementById("myModal");
+            localStorage.setItem("user", JSON.stringify(data.user))
+
+            modal.innerHTML = `
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Product Added</h2>
+                <p>Product has been added to your cart successfully.</p>
+            </div>`;
+            modal.style.display = "block";
+
+            var modal = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        })
+
+        .catch(error => {
+            console.error('Error:', error);
+            // Handle error
+            alert('An error occurred while adding the product to cart.');
+        });
+}
+
+</script>
+</html>
